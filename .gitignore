@@ -1,0 +1,12 @@
+*.exe
+*.out
+*.o
+*.dll
+*.so
+*.a
+.vscode/
+debug/
+release/
+build/
+*.stash
+Makefile

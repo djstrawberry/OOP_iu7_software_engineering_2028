@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1113</width>
+    <height>631</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>GOST type A</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#centralwidget {
+    background-color: rgb(19, 18, 19);
+}
+
+#transferGroupBox,
+#rotationGroupBox,
+#scalingGroupBox {
+    background: rgba(129, 20, 44, 120);
+    border: 1px solid rgba(255,255,255,40);
+    border-radius: 18px;
+    margin-top: 18px;
+    padding: 12px;
+	font-family: &quot;GOST type A&quot;;
+    font-size: 15pt;
+}
+
+#transferGroupBox::title,
+#rotationGroupBox::title,
+#scalingGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 15px;
+    padding: 0 6px;
+    color: white;
+}
+
+QGraphicsView {
+    border: none;
+    border-radius: 20px;
+}
+
+QPushButton {
+    background-color: #CC2454;
+    color: white;
+    border: 1px solid rgba(255,255,255,40);
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-weight: 500;
+	font-family: &quot;GOST type A&quot;;
+    font-size: 15pt;
+}
+
+QPushButton:hover {
+    background-color: #f2777f;
+}
+
+QPushButton:pressed {
+    background-color: #c94f56;
+}
+
+QLabel {
+    font-family:  &quot;GOST type A&quot;;
+    font-size: 15pt;
+}
+
+QDoubleSpinBox {
+	font-family: &quot;GOST type A&quot;;
+	font-size: 10pt;
+    max-width: 100px;
+}
+
+QLabel {
+	color: rgb(255, 255, 255);
+}
+
+QMenuBar {
+	background-color: rgb(49, 49, 49);
+    font-family: &quot;GOST type A&quot;;
+    font-size: 15pt;
+}
+
+QMenuBar::item {
+    font-family: &quot;GOST type A&quot;;
+    font-size: 15pt;
+	color: white;
+}
+
+QMenuBar::item:selected {
+    background: rgba(255, 255, 255, 40);
+}
+
+QMenuBar::item:pressed {
+    background: rgba(255, 255, 255, 60);
+}
+
+QMenu {
+    background-color: rgb(40, 40, 40);
+    color: white;
+    border: 1px solid rgba(255,255,255,40);
+    border-radius: 12px;
+    padding: 6px;
+}
+
+QMenu::item {
+    padding: 6px 20px;
+    border-radius: 8px;
+}
+
+QMenu::item:selected {
+    background-color: #CC2454;
+}
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
+    <item>
+     <widget class="QFrame" name="leftPanelFrame">
+      <property name="styleSheet">
+       <string notr="true">QFrame {
+    background-color: rgb(76, 44, 52);
+    border-radius: 15px;
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QGroupBox" name="transferGroupBox">
+         <property name="styleSheet">
+          <string notr="true">QGroupBox::title {
+    font-family: &quot;GOST type A&quot;;
+    font-size: 11pt;
+    font-weight: 600;
+}</string>
+         </property>
+         <property name="title">
+          <string>Перенос</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="1">
+           <widget class="QLabel" name="dyLabel">
+            <property name="text">
+             <string>dy</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="dxLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>dx</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="dzLabel">
+            <property name="text">
+             <string>dz</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QDoubleSpinBox" name="dxSpinBox">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000032841562489204926078987012566359611695512313426258747006898787995544001315627727412683949504784322435578648490634211491840.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>999999999999999956819772641641815758405104477258378281795396215622882607621111488153942930947432322044748890112.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="dySpinBox">
+            <property name="minimum">
+             <double>-100000000000000008821361405306422640701865984.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100000000000000007629769841091887003294964970946560.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QDoubleSpinBox" name="dzSpinBox">
+            <property name="minimum">
+             <double>-100000000000000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000000000000000000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QPushButton" name="transferPushButton">
+            <property name="text">
+             <string>Перенести</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="rotationGroupBox">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="title">
+          <string>Поворот</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="1">
+           <widget class="QLabel" name="angleYLabel">
+            <property name="text">
+             <string>Угол y</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="angleZLabel">
+            <property name="text">
+             <string>Угол z</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QPushButton" name="rotatePushButton">
+            <property name="text">
+             <string>Повернуть</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="angleXLabel">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Угол x</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QDoubleSpinBox" name="angleXDoubleSpinBox">
+            <property name="minimum">
+             <double>-9999999999999999635896294965248.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>9999999999999999931398190359470212947659194368.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="angleYDoubleSpinBox">
+            <property name="minimum">
+             <double>-9999999999999999538762658202121142272.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10000000000000000139372116959414099130712064.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QDoubleSpinBox" name="angleZDoubleSpinBox">
+            <property name="minimum">
+             <double>-100000000000000008821361405306422640701865984.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>9999999999999999931398190359470212947659194368.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="scalingGroupBox">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="title">
+          <string>Масштабирование</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QLabel" name="kxLabel">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>kx</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="kyLabel">
+            <property name="text">
+             <string>ky</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QPushButton" name="scalePushButton">
+            <property name="text">
+             <string>Масштабировать</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="kzLabel">
+            <property name="text">
+             <string>kz</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QDoubleSpinBox" name="kxDoubleSpinBox">
+            <property name="minimum">
+             <double>-100000000000000008821361405306422640701865984.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>999999999999999943801810948794571024057224129020550531544123892056457216.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="kyDoubleSpinBox">
+            <property name="minimum">
+             <double>-1000000000000000043845843045076197354634047651840.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100000000000000009190283508143378238084034459715684532224.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QDoubleSpinBox" name="kzDoubleSpinBox">
+            <property name="minimum">
+             <double>-10000000000000000303786028427003666890752.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>99999999999999997748809823456034029568.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(49, 49, 49);</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1113</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>GOST type A</family>
+     <pointsize>15</pointsize>
+     <strikeout>false</strikeout>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <widget class="QMenu" name="menu_3D_viewer">
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>GOST type A</family>
+      <pointsize>15</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="loadFileAction"/>
+   </widget>
+   <addaction name="menu_3D_viewer"/>
+  </widget>
+  <action name="loadFileAction">
+   <property name="text">
+    <string>Загрузить файл</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>GOST type A</family>
+     <pointsize>15</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
