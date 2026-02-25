@@ -1,16 +1,14 @@
-#include "../inc/mainwindow.h"
+#include "mainwindow.h"
 #include "../build/ui/ui_mainwindow.h"
 
-MainWindow::MainWindow(model_t& model, QWidget *parent)
-: QMainWindow(parent)
-, ui(new Ui::MainWindow)
-, model(model)
+MainWindow::MainWindow(model_t& model, QWidget *parent): QMainWindow(parent),
+ui(new Ui::MainWindow),
+model(model)
 {
     ui->setupUi(this);
 
     QGraphicsScene *scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
-    //ui->graphicsView->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 
     connect(ui->loadFileAction, &QAction::triggered, this, &MainWindow::ActionLoadFile_triggered);
     connect(ui->scalePushButton, &QPushButton::clicked, this, &MainWindow::ScalePushButton_clicked);
@@ -46,6 +44,17 @@ result_t MainWindow::draw()
     return ec;
 }
 
+static result_t get_filepath(char **filename, MainWindow *window)
+{
+    result_t ec = OK_CODE;
+
+    QString filepath = QFileDialog::getOpenFileName(window, "Выбор файла с описанием модели", "./", "*.txt");
+    QByteArray utf8_filepath = filepath.toUtf8();
+    *filename = utf8_filepath.data();
+
+    return ec;
+}
+
 result_t MainWindow::ActionLoadFile_triggered()
 {
     result_t ec = OK_CODE;
@@ -53,16 +62,20 @@ result_t MainWindow::ActionLoadFile_triggered()
     request_t request;
     request.type = LOAD_MODEL;
 
-    QString filepath = QFileDialog::getOpenFileName(this, "Выбор файла с описанием модели", "./", "*.txt");
-    QByteArray utf8_filepath = filepath.toUtf8();
-    request.filename = utf8_filepath.constData();
+    char *filename;
+    get_filepath(&filename, this);
+    request.filename = filename;
 
     ec = process_request(request, this->model);
 
     if (ec == OK_CODE)
+    {
         draw();
+    }
     else
+    {
         show_error(ec, this);
+    }
 
     return ec;
 }
@@ -84,9 +97,13 @@ result_t MainWindow::ScalePushButton_clicked()
 
     ec = process_request(request, this->model);
     if (ec == OK_CODE)
+    {
         draw();
+    }
     else
+    {
         show_error(ec, this);
+    }
 
     return ec;
 }
@@ -108,13 +125,16 @@ result_t MainWindow::RotatePushButton_clicked()
 
     ec = process_request(request, this->model);
     if (ec == OK_CODE)
+    {
         draw();
+    }
     else
+    {
         show_error(ec, this);
+    }
 
     return ec;
 }
-
 
 result_t MainWindow::TransferPushButton_clicked()
 {
@@ -133,9 +153,13 @@ result_t MainWindow::TransferPushButton_clicked()
 
     ec = process_request(request, this->model);
     if (ec == OK_CODE)
+    {
         draw();
+    }
     else
+    {
         show_error(ec, this);
+    }
 
     return ec;
 }

@@ -1,6 +1,6 @@
 #include "process.h"
 
-result_t process_request(request_t& request, model_t& model)
+result_t process_request(const request_t& request, model_t& model)
 {
     result_t ec = OK_CODE;
 

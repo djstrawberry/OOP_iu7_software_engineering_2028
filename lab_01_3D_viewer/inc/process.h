@@ -3,7 +3,9 @@
 
 #include "result.h"
 #include "model.h"
-#include <iostream>
+#include "model_reader.h"
+#include "model_drawer.h"
+#include <QGraphicsScene>
 
 using namespace std;
 
@@ -29,6 +31,6 @@ typedef struct
     };
 } request_t;
 
-result_t process_request(request_t& request, model_t& model);
+result_t process_request(const request_t& request, model_t& model);
 
 #endif // PROCESS_H

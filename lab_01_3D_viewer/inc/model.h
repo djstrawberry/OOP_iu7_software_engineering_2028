@@ -4,9 +4,6 @@
 #include "result.h"
 #include "point.h"
 #include "edge.h"
-#include <iostream>
-#include <fstream>
-#include <QGraphicsScene>
 
 using namespace std;
 
@@ -16,13 +13,6 @@ typedef struct
     edges_t edges;
     points_t points;
 } model_t;
-
-typedef struct
-{
-    QGraphicsScene *scene;
-    double width;
-    double height;
-} scene_t;
 
 typedef struct {
     double angle_x;
@@ -44,10 +34,9 @@ typedef struct {
 
 result_t init_model(model_t& model);
 result_t free_model(model_t& model);
-result_t load_model(model_t& model, const char *filename);
-result_t draw_model(model_t& model, scene_t& scene);
-result_t scale_model(model_t& model, scale_params_t& params);
-result_t rotate_model(model_t& model, rotate_params_t& params);
-result_t transfer_model(model_t& model, transfer_params_t& params);
+result_t validate_model(const model_t& model);
+result_t scale_model(model_t& model, const scale_params_t& params);
+result_t rotate_model(model_t& model, const rotate_params_t& params);
+result_t transfer_model(model_t& model, const transfer_params_t& params);
 
 #endif // MODEL_H

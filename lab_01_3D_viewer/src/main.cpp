@@ -1,6 +1,6 @@
-#include "../inc/mainwindow.h"
-#include "../inc/model.h"
-#include "../inc/process.h"
+#include "mainwindow.h"
+#include "model.h"
+#include "process.h"
 #include <iostream>
 #include <QApplication>
 

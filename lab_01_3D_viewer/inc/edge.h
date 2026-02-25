@@ -2,7 +2,6 @@
 #define EDGE_H
 
 #include "result.h"
-#include <iostream>
 
 typedef struct
 {
@@ -20,11 +19,10 @@ typedef struct
 result_t init_edges(edges_t& edges);
 result_t free_edges(edges_t& edges);
 result_t allocate_edges_array(edges_t& edges, size_t capacity);
-result_t push_back_edge(edges_t& edges, edge_t& edge);
-// Мейби инлайн?
-size_t get_edges_size(edges_t& edges);
-size_t get_edges_capacity(edges_t& edges);
-void set_edges_capacity(edges_t& edges, size_t capacity);
-edge_t *get_edges_array(edges_t& edges);
+result_t push_back_edge(edges_t& edges, const edge_t& edge);
+size_t get_edges_size(const edges_t& edges);
+size_t get_edges_capacity(const edges_t& edges);
+result_t set_edges_capacity(edges_t& edges, size_t capacity);
+edge_t *get_edges_array(const edges_t& edges);
 
 #endif // EDGE_H
