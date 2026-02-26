@@ -59,11 +59,16 @@ static result_t scale_point(point_t& point, point_t& center, const scale_params_
     return ec;
 }
 
+static bool check_scale_params(const scale_params_t& params)
+{
+    return params.kx && params.ky && params.kz;
+}
+
 result_t scale_model(model_t& model, const scale_params_t& params)
 {
     result_t ec = OK_CODE;
 
-    if (!params.kx || !params.ky || !params.kz)
+    if (!check_scale_params(params))
         ec = RANGE_ERROR_CODE;
     else
     {
