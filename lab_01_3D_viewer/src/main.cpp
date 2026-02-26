@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "model.h"
+#include "model_processor.h"
 #include "process.h"
 #include <iostream>
 #include <QApplication>

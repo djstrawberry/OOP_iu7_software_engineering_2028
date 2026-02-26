@@ -2,7 +2,7 @@
 #define PROCESS_H
 
 #include "result.h"
-#include "model.h"
+#include "model_processor.h"
 #include "model_reader.h"
 #include "model_drawer.h"
 #include <QGraphicsScene>

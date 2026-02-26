@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "model.h"
+#include "model_processor.h"
 #include "process.h"
 #include <QMainWindow>
 #include <QFileDialog>

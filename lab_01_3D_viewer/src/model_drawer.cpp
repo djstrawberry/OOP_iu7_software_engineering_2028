@@ -1,32 +1,54 @@
 #include "model_drawer.h"
 
+result_t draw_line(const points_t& points, const edge_t& edge, const scene_t& scene, const QColor& color)
+{
+    result_t ec = OK_CODE;
+
+    point_t* points_array = get_points_array(points);
+
+    if (!points_array)
+    {
+        ec = NULLPTR_ERROR_CODE;
+    }
+    else
+    {
+        point_t point_1 = points_array[edge.p1];
+        point_t point_2 = points_array[edge.p2];
+
+        double x1 = point_1.x + scene.width / 2;
+        double x2 = point_2.x + scene.width / 2;
+        double y1 = point_1.y + scene.height / 2;
+        double y2 = point_2.y + scene.height / 2;
+
+        scene.scene->addLine(x1, y1, x2, y2, QPen(color));
+    }
+
+    return ec;
+}
+
 result_t draw_model(const model_t& model, const scene_t& scene)
 {
     result_t ec = OK_CODE;
 
     if (!scene.scene)
+    {
         ec = NULLPTR_ERROR_CODE;
-    else
+    }
+    else if (validate_model(model) == OK_CODE)
     {
         scene.scene->clear();
 
-        point_t p1, p2;
-        double x1, x2, y1, y2;
-        edge_t current_edge;
-
-        for (size_t i = 0; i < get_edges_size(model.edges); ++i)
+        edge_t *edges_array = get_edges_array(model.edges);
+        if (!edges_array)
         {
-            current_edge = get_edges_array(model.edges)[i];
-
-            p1 = get_points_array(model.points)[current_edge.p1];
-            p2 = get_points_array(model.points)[current_edge.p2];
-
-            x1 = p1.x + scene.width / 2;
-            x2 = p2.x + scene.width / 2;
-            y1 = p1.y + scene.height / 2;
-            y2 = p2.y + scene.height / 2;
-
-            scene.scene->addLine(x1, y1, x2, y2, QPen(QColor(204, 36, 84)));
+            ec = NULLPTR_ERROR_CODE;
+        }
+        else
+        {
+            for (size_t i = 0; i < get_edges_size(model.edges); ++i)
+            {
+                ec = draw_line(model.points, edges_array[i], scene, PEN_COLOR);
+            }
         }
     }
 

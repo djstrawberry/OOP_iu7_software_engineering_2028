@@ -32,8 +32,8 @@ typedef struct {
     double dz;
 } transfer_params_t;
 
-result_t init_model(model_t& model);
-result_t free_model(model_t& model);
+void init_model(model_t& model);
+void free_model(model_t& model);
 result_t validate_model(const model_t& model);
 result_t scale_model(model_t& model, const scale_params_t& params);
 result_t rotate_model(model_t& model, const rotate_params_t& params);

@@ -1,9 +1,11 @@
 #ifndef MODEL_DRAWER_H
 #define MODEL_DRAWER_H
 
-#include "model.h"
+#include "model_processor.h"
 #include "result.h"
 #include <QGraphicsScene>
+
+#define PEN_COLOR QColor(204, 36, 84)
 
 typedef struct
 {

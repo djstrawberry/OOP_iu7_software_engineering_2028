@@ -10,41 +10,27 @@ point_t *get_points_array(const points_t& points)
     return points.points;
 }
 
-result_t set_points_capacity(points_t& points, size_t capacity)
+void set_points_capacity(points_t& points, size_t capacity)
 {
-    result_t ec = OK_CODE;
-
     points.capacity = capacity;
-
-    return ec;
 }
 
-result_t init_point(point_t& point)
+void init_point(point_t& point)
 {
-    result_t ec = OK_CODE;
-
     point.x = 0.0;
     point.y = 0.0;
     point.z = 0.0;
-
-    return ec;                          
 }
 
-result_t init_points(points_t& points)
+void init_points(points_t& points)
 {
-    result_t ec = OK_CODE;
-
     points.points = nullptr;
     points.size = 0;
     points.capacity = 0;
-
-    return ec;                          
 }   
 
-result_t free_points(points_t& points)
+void free_points(points_t& points)
 {
-    result_t ec = OK_CODE;
-
     if (points.points)
     {
         free(points.points);
@@ -53,8 +39,6 @@ result_t free_points(points_t& points)
 
     points.size = 0;
     points.capacity = 0;
-
-    return ec;
 }
 
 result_t allocate_points_array(points_t& points, size_t capacity)
