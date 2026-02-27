@@ -1,8 +1,9 @@
 #include "process.h"
 
-result_t process_request(const request_t& request, model_t& model)
+result_t process_request(const request_t& request)
 {
     result_t ec = OK_CODE;
+    static model_t model;
 
     switch(request.type)
     {

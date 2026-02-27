@@ -19,13 +19,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(model_t& model, QWidget *parent = nullptr);
+        MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
         result_t draw();
 
     private:
         Ui::MainWindow *ui;
-        model_t& model;
 
     private slots:
         result_t ActionLoadFile_triggered();

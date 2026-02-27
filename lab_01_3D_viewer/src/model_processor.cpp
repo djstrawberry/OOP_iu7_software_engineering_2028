@@ -131,20 +131,22 @@ static void rotate_point(point_t& point, point_t& center, const rotate_params_t&
 result_t rotate_model(model_t& model, const rotate_params_t& params)
 {
     result_t ec = validate_model(model);
+    point_t* points_array;
 
     if (ec == OK_CODE)
     {
-        point_t* points_array = get_points_array(model.points);
+        points_array = get_points_array(model.points);
         if (!points_array)
         {
             ec = NULLPTR_ERROR_CODE;
         }
-        else
+    }
+
+    if (ec == OK_CODE)
+    {
+        for (size_t i = 0; i < get_points_size(model.points); ++i)
         {
-            for (size_t i = 0; i < get_points_size(model.points); ++i)
-            {
-                rotate_point(points_array[i], model.center, params);
-            }
+            rotate_point(points_array[i], model.center, params);
         }
     }
 
@@ -161,21 +163,23 @@ static void transfer_point(point_t& point, const transfer_params_t& params)
 result_t transfer_model(model_t& model, const transfer_params_t& params)
 {
     result_t ec = validate_model(model);
+    point_t* points_array;
 
     if (ec == OK_CODE)
     {
-        point_t* points_array = get_points_array(model.points);
+        points_array = get_points_array(model.points);
         if (!points_array)
         {
             ec = NULLPTR_ERROR_CODE;
         }
-        else
+    }
+
+    if (ec == OK_CODE)
+    {
+        transfer_point(model.center, params);
+        for (size_t i = 0; i < get_points_size(model.points); ++i)
         {
-            transfer_point(model.center, params);
-            for (size_t i = 0; i < get_points_size(model.points); ++i)
-            {
-                transfer_point(get_points_array(model.points)[i], params);
-            }
+            transfer_point(points_array[i], params);
         }
     }
 

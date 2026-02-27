@@ -31,6 +31,6 @@ typedef struct
     };
 } request_t;
 
-result_t process_request(const request_t& request, model_t& model);
+result_t process_request(const request_t& request);
 
 #endif // PROCESS_H

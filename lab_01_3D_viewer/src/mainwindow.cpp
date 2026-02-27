@@ -1,9 +1,7 @@
 #include "mainwindow.h"
 #include "../build/ui/ui_mainwindow.h"
 
-MainWindow::MainWindow(model_t& model, QWidget *parent): QMainWindow(parent),
-ui(new Ui::MainWindow),
-model(model)
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -18,7 +16,6 @@ model(model)
 
 MainWindow::~MainWindow()
 {
-    free_model(this->model);
     delete ui;
 }
 
@@ -39,7 +36,7 @@ result_t MainWindow::draw()
     request.type = DRAW_MODEL;
     request.scene = { scene, width, height };
 
-    ec = process_request(request, this->model);
+    ec = process_request(request);
 
     return ec;
 }
@@ -66,7 +63,7 @@ result_t MainWindow::ActionLoadFile_triggered()
     get_filepath(&filename, this);
     request.filename = filename;
 
-    ec = process_request(request, this->model);
+    ec = process_request(request);
 
     if (ec == OK_CODE)
     {
@@ -95,7 +92,7 @@ result_t MainWindow::ScalePushButton_clicked()
 
     request.scale_params = { kx, ky, kz };
 
-    ec = process_request(request, this->model);
+    ec = process_request(request);
     if (ec == OK_CODE)
     {
         draw();
@@ -123,7 +120,7 @@ result_t MainWindow::RotatePushButton_clicked()
 
     request.rotate_params = { angle_x, angle_y, angle_z };
 
-    ec = process_request(request, this->model);
+    ec = process_request(request);
     if (ec == OK_CODE)
     {
         draw();
@@ -151,7 +148,7 @@ result_t MainWindow::TransferPushButton_clicked()
 
     request.transfer_params = { dx, dy, dz };
 
-    ec = process_request(request, this->model);
+    ec = process_request(request);
     if (ec == OK_CODE)
     {
         draw();

@@ -8,10 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    model_t model;
-    init_model(model);
-
-    MainWindow w(model);
+    MainWindow w;
 
     w.show();
     return a.exec();
