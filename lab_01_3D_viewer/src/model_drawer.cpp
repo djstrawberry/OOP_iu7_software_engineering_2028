@@ -15,10 +15,13 @@ result_t draw_line(const points_t& points, const edge_t& edge, const scene_t& sc
         point_t point_1 = points_array[edge.p1];
         point_t point_2 = points_array[edge.p2];
 
-        double x1 = point_1.x + scene.width / 2;
-        double x2 = point_2.x + scene.width / 2;
-        double y1 = point_1.y + scene.height / 2;
-        double y2 = point_2.y + scene.height / 2;
+        double cx = scene.width / 2;
+        double cy = scene.height / 2;
+
+        double x1 = cx + point_1.x;
+        double y1 = cy - point_1.y;
+        double x2 = cx + point_2.x;
+        double y2 = cy - point_2.y; 
 
         scene.scene->addLine(x1, y1, x2, y2, QPen(color));
     }
