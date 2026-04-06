@@ -128,6 +128,14 @@ static void rotate_point(point_t& point, point_t& center, const rotate_params_t&
     rotate_around_z_axis(point, center, params.angle_z);
 }
 
+static void rotate_points(point_t *points_array, point_t& center, size_t size, const rotate_params_t& params)
+{
+    for (size_t i = 0; i < size; ++i)
+    {
+        rotate_point(points_array[i], center, params);
+    }
+}
+
 result_t rotate_model(model_t& model, const rotate_params_t& params)
 {
     result_t ec = validate_model(model);
@@ -140,13 +148,9 @@ result_t rotate_model(model_t& model, const rotate_params_t& params)
         {
             ec = NULLPTR_ERROR_CODE;
         }
-    }
-
-    if (ec == OK_CODE)
-    {
-        for (size_t i = 0; i < get_points_size(model.points); ++i)
+        else
         {
-            rotate_point(points_array[i], model.center, params);
+            rotate_points(points_array, model.center, get_points_size(model.points), params);
         }
     }
 
@@ -158,6 +162,15 @@ static void transfer_point(point_t& point, const transfer_params_t& params)
     point.x = point.x + params.dx;
     point.y = point.y + params.dy;
     point.z = point.z + params.dz;
+}
+
+static void transfer_points(point_t *points_array, point_t& center, size_t size, const transfer_params_t& params)
+{
+    transfer_point(center, params);
+    for (size_t i = 0; i < size; ++i)
+    {
+        transfer_point(points_array[i], params);
+    }
 }
 
 result_t transfer_model(model_t& model, const transfer_params_t& params)
@@ -172,16 +185,11 @@ result_t transfer_model(model_t& model, const transfer_params_t& params)
         {
             ec = NULLPTR_ERROR_CODE;
         }
-    }
-
-    if (ec == OK_CODE)
-    {
-        transfer_point(model.center, params);
-        for (size_t i = 0; i < get_points_size(model.points); ++i)
+        else
         {
-            transfer_point(points_array[i], params);
+            transfer_points(points_array, model.center, get_points_size(model.points), params);
         }
     }
-
+ 
     return ec;
 }

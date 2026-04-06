@@ -53,8 +53,9 @@ result_t validate_edge(const edge_t& edge, size_t max_quantity)
 result_t validate_edges(const edges_t& edges, size_t max_quantity)
 {
     result_t ec = OK_CODE;
+    size_t size = get_edges_size(edges);
 
-    for (size_t i = 0; (ec == OK_CODE) && (i < get_edges_size(edges)); ++i)
+    for (size_t i = 0; (ec == OK_CODE) && (i < size); ++i)
     {
         ec = validate_edge(get_edges_array(edges)[i], max_quantity);
     }
