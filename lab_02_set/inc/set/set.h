@@ -21,6 +21,7 @@ public:
     // TODO: iterator + const iterator + diff
 
     // Constructors
+
     Set() = default;
 
     // Constructor from initializer list
@@ -56,4 +57,52 @@ public:
     // Constructors from iterator
     template <ConvertibleInputIterator<T> It, Sentinel<It> S>
     explicit Set(const It& begin, const S& end);
+
+    // Destructor
+
+    ~Set();
+
+    // Assignment operators and functions
+
+    // Copy assignment from another Set
+    template <Convertible<T> U>
+    Set<T>& operator=(const Set<T>& other);
+    template <Convertible<T> U>
+    Set<T>& assign(const Set<T>& other);
+
+    // Move assignment from another Set
+    template <Convertible<T> U>
+    Set<T>& operator=(const Set<T>&& other) noexcept;
+    template <Convertible<T> U>
+    Set<T>& assign(const Set<T>&& other) noexcept;
+
+    // Copy assignment from initializer list
+    template <Convertible<T> U>
+    Set<T>& operator=(std::initializer_list<U> ilist);
+    template <Convertible<T> U>
+    Set<T>& assign(std::initializer_list<U> ilist);
+    
+    // Copy assignment from container
+    template <ConvertibleContainer<T> C>
+    Set<T>& operator=(const C& container);
+    template <ConvertibleContainer<T> C>
+    Set<T>& assign(const C& container);
+
+    // Move assignment from container
+    template <ConvertibleContainer<T> C>
+    Set<T>& operator=(C&& container);
+    template <ConvertibleContainer<T> C>
+    Set<T>& assign(C&& container);
+
+    // Copy assignment from range
+    template <ConvertibleRange<T> R>
+    Set<T>& operator=(const R& range);
+    template <ConvertibleRange<T> R>
+    Set<T>& assign(const R& range);
+
+    // Move assignment from range
+    template <ConvertibleRange<T> R>
+    Set<T>& operator=(R&& range);
+    template <ConvertibleRange<T> R>
+    Set<T>& assign(R&& range);
 };
