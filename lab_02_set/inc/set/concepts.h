@@ -13,6 +13,18 @@ concept CopiableMoveableAssignable = std::copy_constructible<T> && std::move_con
 template <typename From, typename To>
 concept ConvertibleTo = std::convertible_to<From, To>;
 
+template <typename T, typename U>
+concept HasCommon = requires { typename std::common_type_t<T, U>; };
+
+template <typename T, typename U>
+concept EqualityComparable = requires(T t, U u)
+{
+    { t == u } noexcept -> std::same_as<bool>;
+    { t != u } noexcept -> std::same_as<bool>;
+    { u == t } noexcept -> std::same_as<bool>;
+    { u != t } noexcept -> std::same_as<bool>;
+};
+
 template <CopiableMoveableAssignable T>
 class Set;
 
@@ -41,6 +53,10 @@ template <typename C, typename T>
 concept ConvertibleContainer =
     !isSet<C> && Container<C> && ConvertibleTo<typename std::remove_reference_t<C>::value_type, T>;
 
+template <typename C, typename T>
+concept CommonContainer =
+    !isSet<C> && Container<C>  && HasCommon<typename std::remove_reference_t<C>::value_type, T>;
+
 template <typename R>
 concept Range = std::ranges::input_range<R>;
 
@@ -48,11 +64,18 @@ template <typename R, typename T>
 concept ConvertibleRange =
     !isSet<R> && Range<R> && ConvertibleTo<std::ranges::range_value_t<R>, T>;
 
+template <typename R, typename T>
+concept CommonRange =
+    !isSet<R> && Range<R> && HasCommon<typename std::remove_reference_t<R>::value_type, T>;   
+
 template <typename It>
 concept InputIterator = std::input_iterator<It>;
 
 template <typename It, typename T>
 concept ConvertibleInputIterator = InputIterator<It> && ConvertibleTo<typename It::value_type, T>;
+
+template <typename It, typename T>
+concept EqualityComparableInputIterator = InputIterator<It> && EqualityComparable<typename It::value_type, T>;
 
 template <typename S, typename It>
 concept Sentinel = std::sentinel_for<S, It>;
