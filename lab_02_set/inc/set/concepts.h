@@ -57,6 +57,10 @@ template <typename C, typename T>
 concept CommonContainer =
     !isSet<C> && Container<C>  && HasCommon<typename std::remove_reference_t<C>::value_type, T>;
 
+template <typename C, typename T>
+concept EqualityComparableContainer =
+    !isSet<C> && Container<C> && EqualityComparable<typename std::remove_reference_t<C>::value_type, T>;
+
 template <typename R>
 concept Range = std::ranges::input_range<R>;
 
@@ -67,6 +71,10 @@ concept ConvertibleRange =
 template <typename R, typename T>
 concept CommonRange =
     !isSet<R> && Range<R> && HasCommon<typename std::remove_reference_t<R>::value_type, T>;   
+
+template <typename R, typename T>
+concept EqualityComparableRange =
+    !isSet<R> && Range<R> && EqualityComparable<std::ranges::range_value_t<R>, T> && !Container<R>;
 
 template <typename It>
 concept InputIterator = std::input_iterator<It>;

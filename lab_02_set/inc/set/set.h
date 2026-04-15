@@ -5,6 +5,9 @@
 #include <memory>
 
 #include "concepts.h"
+#include "exception.h"
+#include "const_iterator.h"
+#include "base_iterator.h"
 
 template <CopiableMoveableAssignable T>
 class Set
@@ -16,9 +19,9 @@ public:
     using reference = T &;
     using const_reference = const T &;
     using size_type = std::size_t;
+    using iterator = ConstIterator<value_type>;
+    using const_iterator = ConstIterator<value_type>;
     using difference_type = std::ptrdiff_t;
-
-    // TODO: iterator + const iterator + diff
 
     // Constructors
 
@@ -65,21 +68,17 @@ public:
     // Assignment operators and functions
 
     // Copy assignment from another Set
-    template <Convertible<T> U>
     Set<T>& operator=(const Set<T>& other);
-    template <Convertible<T> U>
     Set<T>& assign(const Set<T>& other);
 
     // Move assignment from another Set
-    template <Convertible<T> U>
-    Set<T>& operator=(const Set<T>&& other) noexcept;
-    template <Convertible<T> U>
-    Set<T>& assign(const Set<T>&& other) noexcept;
+    Set<T>& operator=(Set<T>&& other) noexcept;
+    Set<T>& assign(Set<T>&& other) noexcept;
 
     // Copy assignment from initializer list
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& operator=(std::initializer_list<U> ilist);
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& assign(std::initializer_list<U> ilist);
     
     // Copy assignment from container
@@ -108,10 +107,10 @@ public:
 
     // Add element to the set
 
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     bool add(const U& value);
 
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     bool add(U&& value);
 
     // Delete element from the set
@@ -129,7 +128,8 @@ public:
     template <EqualityComparableInputIterator<T> It>
     bool in(const It& pos) const noexcept;
 
-    // TODO: find (using const iter)
+    template <EqualityComparable<T> U>
+    ConstIterator<T> find(const U &value) const noexcept;
 
     // Get set info
 
@@ -141,7 +141,11 @@ public:
 
     void clear() noexcept;
 
-    // TODO: iters getting funcs
+    // Iterators getting funcs
+    ConstIterator<T> begin() const noexcept;  
+    ConstIterator<T> end() const noexcept;     
+    ConstIterator<T> cbegin() const noexcept;  
+    ConstIterator<T> cend() const noexcept;    
 
     // Union funcs (make new one)
     template <HasCommon<T> U>
@@ -152,7 +156,7 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> make_union(const R& range) const;
 
     // Union funcs (unite with this)
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& unite(const Set<U>& other);
     template <ConvertibleContainer<T> C>
     Set<T>& unite(const C& container);
@@ -168,7 +172,7 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> make_intersection(const R& range) const;
 
     // Intersection funcs (intersect with this)
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& intersect(const Set<U>& other) noexcept;
     template <ConvertibleContainer<T> C>
     Set<T>& intersect(const C& container) noexcept;
@@ -184,7 +188,7 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> make_difference(const R& range) const;   
 
     // Difference funcs (subtract from this)
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& subtract(const Set<U>& other) noexcept;
     template <ConvertibleContainer<T> C>
     Set<T>& subtract(const C& container) noexcept;
@@ -200,7 +204,7 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> make_symm_difference(const R& range) const;
 
     // Symmetric difference funcs (symm_subtract from this)
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& symm_subtract(const Set<U>& other);
     template <ConvertibleContainer<T> C>
     Set<T>& symm_subtract(const C& container);
@@ -216,7 +220,7 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> operator+(const R& range) const; 
 
     // Union operator +=
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& operator+=(const Set<U>& other);
     template <ConvertibleContainer<T> C>
     Set<T>& operator+=(const C& container);
@@ -232,7 +236,7 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> operator|(const R& range) const; 
 
     // Union operator |=
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& operator|=(const Set<U>& other);
     template <ConvertibleContainer<T> C>
     Set<T>& operator|=(const C& container);
@@ -248,7 +252,7 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> operator&(const R& range) const; 
 
     // Intersection operator &=
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& operator&=(const Set<U>& other) noexcept;
     template <ConvertibleContainer<T> C>
     Set<T>& operator&=(const C& container) noexcept;
@@ -264,7 +268,7 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> operator-(const R& range) const; 
 
     // Difference operator -=
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& operator-=(const Set<U>& other) noexcept;   
     template <ConvertibleContainer<T> C>
     Set<T>& operator-=(const C& container) noexcept;
@@ -280,12 +284,27 @@ public:
     Set<std::common_type_t<T, typename std::ranges::range_value_t<R>>> operator^(const R& range) const; 
 
     // Symmetric difference operator ^=
-    template <Convertible<T> U>
+    template <ConvertibleTo<T> U>
     Set<T>& operator^=(const Set<U>& other);
     template <ConvertibleContainer<T> C>
     Set<T>& operator^=(const C& container);
     template <ConvertibleRange<T> R>
     Set<T>& operator^=(const R& range);
+
+    // Comparison operators
+    template <EqualityComparable<T> U>
+    std::partial_ordering operator<=>(const Set<U> &other) const noexcept;
+    template <EqualityComparableContainer<T> C>
+    std::partial_ordering operator<=>(const C &container) const noexcept; 
+    template <EqualityComparableRange<T> R>
+    std::partial_ordering operator<=>(const R &range) const noexcept; 
+
+    template <EqualityComparable<T> U>
+    bool operator==(const Set<U> &other) const noexcept;
+    template <EqualityComparableContainer<T> C>
+    bool operator==(const C &container) const noexcept; 
+    template <EqualityComparableRange<T> R>
+    bool operator==(const R &range) const noexcept; 
 
     // Comparable / non-comparable funcs
     template <EqualityComparable<T> U>
@@ -362,10 +381,56 @@ public:
     bool notEqual(const R &range) const noexcept;
 
 protected:
-    // TODO: node class + friends
+    class SetNode : public std::enable_shared_from_this<SetNode>
+    {
+        private:
+            T data;
+            std::shared_ptr<SetNode> next;
+
+            // Private constructors for SetNode
+            explicit SetNode(const T& data) noexcept;
+            explicit SetNode(T&& data) noexcept;
+            SetNode(const std::shared_ptr<SetNode> current_node, const T& data) noexcept;
+        public:
+            // To forbid default, copy and move constructors
+            SetNode() = delete;
+            SetNode(const SetNode& other) = delete;
+            SetNode(SetNode&& other) = delete;
+
+            // Static factory method to create a new SetNode
+            template <typename... Args>
+            static std::shared_ptr<SetNode> create(Args &&... args);
+
+            // Destructor
+            ~SetNode() = default;
+
+            // Getters
+            const T& value() const noexcept;
+            std::shared_ptr<T> get();
+            std::shared_ptr<SetNode> getNext() const noexcept;
+
+            // Setters
+            void set(const T& value) noexcept;
+            void setNull() noexcept;
+            void setNext(const SetNode& node);
+            void setNext(const std::shared_ptr<SetNode>& pnode) noexcept;
+            void setNextNull() noexcept;
+
+            // Operators
+            bool operator==(const std::shared_ptr<SetNode>& other) const noexcept;
+            bool operator!=(const std::shared_ptr<SetNode>& other) const noexcept;
+    };
+
+    // Friends
+    friend class BaseIterator<T>;
+    friend class ConstIterator<T>;
 
 private:
-    // TODO: head + tail
+    std::shared_ptr<SetNode> head = nullptr;
+    std::shared_ptr<SetNode> tail = nullptr;
+
+    bool add(const std::shared_ptr<SetNode> &node);
 };
 
-// TODO: includes
+#include "set.hpp"
+#include "set_node.hpp"
