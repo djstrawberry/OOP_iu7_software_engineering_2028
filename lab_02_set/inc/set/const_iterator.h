@@ -11,11 +11,12 @@ class Set;
 
 template <CopiableMoveableAssignable T>
 class ConstIterator : public BaseIterator<T>
-{
+{    
+    static_assert(EqualityComparable<T, T>, "T must be equality comparable with itself");
 
 public:
-    using pointer = std::shared_ptr<T>;
-    using reference = T &;
+    using pointer = const T*;
+    using reference = const T&;
     using value_type = T;
     using iterator_category = std::forward_iterator_tag; // for list
     using difference_type = std::ptrdiff_t;
@@ -42,10 +43,10 @@ public:
     ConstIterator<T> &operator=(const ConstIterator<T> &other) noexcept;
     ConstIterator<T> &operator=(ConstIterator<T> &&other) noexcept;
 
-    const T &operator*() const;
-    const std::shared_ptr<T> operator->() const;
+    reference operator*() const;
+    pointer operator->() const;
 
-    ConstIterator<T> operator+(int n) const noexcept;
+    ConstIterator<T> operator+(difference_type n) const noexcept;
     ConstIterator<T> &operator++() noexcept;
     ConstIterator<T> operator++(int) noexcept;
 

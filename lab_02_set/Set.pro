@@ -3,7 +3,7 @@ TARGET = Set
 QT += core widgets gui
 
 CONFIG += c++20
-QMAKE_CXXFLAGS += -std=c++20
+QMAKE_CXXFLAGS += -std=c++20 -w
 
 # Папки проекта
 HEADERS_DIR = inc

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <initializer_list>
 #include <memory>
+#include <ranges>
 
 #include "concepts.h"
 #include "exception.h"
@@ -12,6 +13,10 @@
 template <CopiableMoveableAssignable T>
 class Set
 {
+    static_assert(CopiableMoveableAssignable<T>, 
+                  "Set element type must be copyable, movable, and assignable");
+
+    static_assert(EqualityComparable<T, T>, "T must be equality comparable with itself");
 public:
 
     // Aliases
@@ -47,7 +52,7 @@ public:
 
     // Constructor from container rvalue
     template <ConvertibleContainer<T> C>
-    explicit Set(C&& container);
+    Set(C&& container);
 
     // Constructor from range lvalue
     template <ConvertibleRange<T> R>
@@ -55,15 +60,17 @@ public:
 
     // Constructor from range rvalue
     template <ConvertibleRange<T> R>
-    explicit Set(R&& range);
+    Set(R&& range);
 
     // Constructors from iterator
     template <ConvertibleInputIterator<T> It, Sentinel<It> S>
     explicit Set(const It& begin, const S& end);
 
-    // Destructor
+    template <ConvertibleTo<T> U>
+    explicit Set(const Set<U>& other);
 
-    ~Set();
+    // Destructor
+    ~Set() noexcept;
 
     // Assignment operators and functions
 
@@ -383,6 +390,8 @@ public:
 protected:
     class SetNode : public std::enable_shared_from_this<SetNode>
     {
+        static_assert(CopiableMoveableAssignable<T>, 
+                  "SetNode data type must be copyable, movable, and assignable");
         private:
             T data;
             std::shared_ptr<SetNode> next;
@@ -428,9 +437,12 @@ protected:
 private:
     std::shared_ptr<SetNode> head = nullptr;
     std::shared_ptr<SetNode> tail = nullptr;
+    size_type _size = 0;
 
     bool add(const std::shared_ptr<SetNode> &node);
 };
 
 #include "set.hpp"
 #include "set_node.hpp"
+
+static_assert(Container<Set<int>>, "Set<int> must satisfy the Container concept");

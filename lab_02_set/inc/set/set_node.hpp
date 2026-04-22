@@ -22,7 +22,7 @@ std::shared_ptr<typename Set<T>::SetNode> Set<T>::SetNode::create(Args&&... args
     struct EnableMakeShared : public Set<T>::SetNode
     {
         EnableMakeShared(Args&&... args) : Set<T>::SetNode(std::forward<Args>(args)...) {}
-    }
+    };
     return std::make_shared<EnableMakeShared>(std::forward<Args>(args)...);
 }
 

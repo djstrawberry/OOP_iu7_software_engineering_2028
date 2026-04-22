@@ -10,6 +10,8 @@ class Set;
 template <CopiableMoveableAssignable T>
 class BaseIterator
 {
+    static_assert(CopiableMoveableAssignable<T>, 
+                  "BaseIterator value type must be copyable, movable, and assignable");
 public:
     BaseIterator() = default;
     virtual ~BaseIterator() = 0;

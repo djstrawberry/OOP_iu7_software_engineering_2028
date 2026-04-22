@@ -85,7 +85,7 @@ const T &ConstIterator<T>::operator*() const
 }
 
 template <CopiableMoveableAssignable T>
-const std::shared_ptr<T> ConstIterator<T>::operator->() const
+typename ConstIterator<T>::pointer ConstIterator<T>::operator->() const
 {
     this->checkExpired();
 
@@ -108,6 +108,15 @@ bool ConstIterator<T>::operator!=(const ConstIterator<T> &other) const noexcept
 template <CopiableMoveableAssignable T>
 void ConstIterator<T>::checkExpired() const
 {
-    if (this->curr.expired())
-        throw IteratorException("Iterator pointer expired.");
+    //if (this->curr.expired())
+       // throw IteratorException("Iterator pointer expired.");
+}
+
+template <CopiableMoveableAssignable T>
+ConstIterator<T> ConstIterator<T>::operator+(difference_type n) const noexcept
+{
+    auto copy = *this;
+    for (difference_type i = 0; i < n; ++i)
+        ++copy;
+    return copy;
 }
